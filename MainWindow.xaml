@@ -1,0 +1,88 @@
+<Window x:Class="SalesStatisticsWpf.MainWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="Статистика продаж — вариант 20" Height="820" Width="1240"
+ MinHeight="700" MinWidth="1000" WindowStartupLocation="CenterScreen">
+ <Grid Background="#F3F5F9" Margin="18">
+  <Grid.RowDefinitions>
+   <RowDefinition Height="Auto"/>
+   <RowDefinition Height="Auto"/>
+   <RowDefinition Height="2*"/>
+   <RowDefinition Height="2*"/>
+   <RowDefinition Height="Auto"/>
+   <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <StackPanel Grid.Row="0" Margin="4,0,4,12">
+   <TextBlock Text="СБОР СТАТИСТИКИ О ПРОДУКТАХ И ПРОДАЖАХ" FontSize="25"
+              FontWeight="Bold" Foreground="#25345B"/>
+   <TextBlock Text="Лабораторная работа: асинхронность, async/await, CancellationToken и TPL • Вариант 20"
+              FontSize="14" Foreground="#68738D" Margin="0,5,0,0"/>
+  </StackPanel>
+  <Border Grid.Row="1" Background="White" CornerRadius="10" Padding="12" Margin="4">
+   <DockPanel LastChildFill="False">
+    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+     <Button x:Name="StartButton" Content="Загрузить и рассчитать" Click="StartButton_Click"
+             Background="#5269D8" Foreground="White"/>
+     <Button x:Name="CancelButton" Content="Отменить" Click="CancelButton_Click"
+             IsEnabled="False" Background="#C95A65" Foreground="White"/>
+     <CheckBox x:Name="InvalidSaleCheckBox" Content="Добавить ошибочную продажу (тест)"
+               VerticalAlignment="Center" Margin="18,0,8,0"/>
+    </StackPanel>
+    <TextBlock x:Name="UiHeartbeatText" DockPanel.Dock="Right" VerticalAlignment="Center"
+               Foreground="#287A52" FontWeight="SemiBold" Text="Интерфейс готов к работе"/>
+   </DockPanel>
+  </Border>
+  <Grid Grid.Row="2" Margin="4,8">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="1.2*"/><ColumnDefinition Width="1.8*"/></Grid.ColumnDefinitions>
+   <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="10" Margin="0,0,8,0">
+    <DockPanel>
+     <TextBlock DockPanel.Dock="Top" Text="Каталог продуктов" FontSize="18" FontWeight="SemiBold"
+                Foreground="#25345B" Margin="4,4,4,8"/>
+     <DataGrid x:Name="ProductsGrid">
+      <DataGrid.Columns>
+       <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="45"/>
+       <DataGridTextColumn Header="Продукт" Binding="{Binding Name}" Width="*"/>
+       <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="*"/>
+       <DataGridTextColumn Header="Цена, ₽" Binding="{Binding Price, StringFormat=N2}" Width="95"/>
+      </DataGrid.Columns>
+     </DataGrid>
+    </DockPanel>
+   </Border>
+   <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="10" Margin="8,0,0,0">
+    <DockPanel>
+     <TextBlock DockPanel.Dock="Top" Text="Журнал продаж" FontSize="18" FontWeight="SemiBold"
+                Foreground="#25345B" Margin="4,4,4,8"/>
+     <DataGrid x:Name="SalesGrid">
+      <DataGrid.Columns>
+       <DataGridTextColumn Header="ID продукта" Binding="{Binding ProductId}" Width="110"/>
+       <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="110"/>
+       <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=dd.MM.yyyy}" Width="*"/>
+      </DataGrid.Columns>
+     </DataGrid>
+    </DockPanel>
+   </Border>
+  </Grid>
+  <Border Grid.Row="3" Background="White" CornerRadius="10" Padding="10" Margin="4,4">
+   <DockPanel>
+    <TextBlock DockPanel.Dock="Top" Text="Итоговая статистика по категориям" FontSize="18"
+               FontWeight="SemiBold" Foreground="#25345B" Margin="4,4,4,8"/>
+    <DataGrid x:Name="StatisticsGrid">
+     <DataGrid.Columns>
+      <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="*"/>
+      <DataGridTextColumn Header="Выручка, ₽" Binding="{Binding Revenue, StringFormat=N2}" Width="170"/>
+      <DataGridTextColumn Header="Число продаж" Binding="{Binding SalesCount}" Width="140"/>
+      <DataGridTextColumn Header="Продано единиц" Binding="{Binding UnitsSold}" Width="150"/>
+     </DataGrid.Columns>
+    </DataGrid>
+   </DockPanel>
+  </Border>
+  <StackPanel Grid.Row="4" Margin="5,8">
+   <ProgressBar x:Name="ProgressBar" Height="16" Minimum="0" Maximum="100"/>
+   <TextBlock x:Name="ProgressText" Text="Ожидание запуска." Margin="2,5" Foreground="#59647C"/>
+  </StackPanel>
+  <Border Grid.Row="5" Background="#E8ECF7" CornerRadius="8" Padding="10" Margin="4,4">
+   <TextBlock x:Name="StatusText" Text="Нажмите «Загрузить и рассчитать», чтобы начать асинхронную обработку."
+              Foreground="#303D66" TextWrapping="Wrap"/>
+  </Border>
+ </Grid>
+</Window>
